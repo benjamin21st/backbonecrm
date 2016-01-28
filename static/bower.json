@@ -1,0 +1,21 @@
+{
+  "name": "bbcrm_frontend",
+  "version": "0.1.0",
+  "authors": [
+    "benjamin"
+  ],
+  "description": "frontend dependency management",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0"
+  }
+}

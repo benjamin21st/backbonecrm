@@ -1,0 +1,52 @@
+<!-- Tempalte for file editor for admin.  -->
+<h1>User Details</h1>
+<form name="user-details-form" class="form">
+
+  <div class="message-container">
+    <p class="text-{{message_type}}">{{message_content}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="col-xs-4 col-md-8 col-sm-4">User name</label>
+    <p class="col-xs-8 col-md-4 col-sm-8">{{fullname}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="col-xs-4 col-md-8 col-sm-4">User Email</label>
+    <p class="col-xs-8 col-md-4 col-sm-8">{{email}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="col-xs-4 col-md-8 col-sm-4">User Type</label>
+    <p class="editable col-xs-8 col-md-4 col-sm-8">{{type}}</p>
+    <!-- TODO: decide whether to show a drop-down here or have a master "edit button" -->
+    <div class="col-xs-8 col-md-4 col-sm-8">
+      <select id="user-types" class="editing">
+        <option {{userSelected}} value="user">User</option>
+        <option {{demouserSelected}} value="demo_user">Demo User</option>
+        <option {{customerSelected}} value="customer">Customer</option>
+        <option {{adminSelected}} value="admin">Admin</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-xs-4 col-md-8 col-sm-4">Organization</label>
+    <p class="editable col-xs-8 col-md-4 col-sm-8">{{organization}}</p>
+    <!-- TODO: same as above -->
+    <!-- TODO: Maybe having a list of recommended/available organizations? -->
+    <div class="col-xs-8 col-md-4 col-sm-8">
+      <input id="organization-name" class="editing form-control" value="{{organization}}"/>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="btn-group">
+      <div class="edit editable btn btn-default btn-sm">Edit</div>
+      <div class="close-view editable btn btn-default btn-sm">Close</div>
+      <div class="cancel editing btn btn-default btn-sm">Cancel</div>
+      <div class="save editing btn btn-primary btn-sm" type="submit">Save</div>
+      <div class="delete editing btn btn-danger btn-sm">Delete</div>
+    </div>
+  </div>
+</form>

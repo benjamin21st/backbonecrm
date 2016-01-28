@@ -1,0 +1,79 @@
+.sortable-table.table {
+
+  th:not(:last-child) {
+    .header-text {
+      padding-left: 20px;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .fa {
+      float: left;
+      color: grey;
+      display: none;
+    }
+  }
+
+  th.sorting {
+    .fa {
+      color: black;
+    }
+  }
+
+  th.sort-asc {
+    .fa.fa-sort-alpha-asc,
+    .fa.fa-sort-numeric-asc {
+    display: inline-block;
+    }
+  }
+
+  th.sort-desc {
+    .fa.fa-sort-alpha-desc,
+    .fa.fa-sort-numeric-desc {
+    display: inline-block;
+    }
+  }
+}
+
+.user-details-view {
+
+  .editing {
+    display: none;
+  }
+
+  &.editing-mode {
+    // when entering editing mode, toggle visibility of editable and editing
+    .editable {
+      display: none;
+    }
+
+    .editing {
+      display: block;
+    }
+  }
+}
+
+/**
+ * TODO:
+ *   Try not to add rules for .modal-content, because it is a Bootstrap
+ *   class, and any rules we add here is overriding the bootstrap styles
+ */
+.modal-content {
+  background: #FFF;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  min-width: 50%;
+  max-width: 60%;
+  padding: 10px;
+  overflow: scroll;
+}
+
+
+/**
+ * Bootstrap override
+ */
+.form-group {
+  overflow: hidden;
+}
