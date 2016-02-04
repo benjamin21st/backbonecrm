@@ -1,3 +1,10 @@
+/**********************
+ *   variables        *
+ **********************/
+/**
+ * TODO: use mixins for repetitive border and
+ * padding definitions.
+ */
 .header {
   display: flex;
   align-items: center;
@@ -68,5 +75,18 @@
 /**
  * Bootstrap override
  */
-.form-group {
-  overflow: hidden; }
+.details-form {
+  border: 1px solid #CECECE;
+  padding: 5px; }
+  .details-form .form-group {
+    overflow: hidden;
+    min-height: 40px; }
+
+/**
+ * For HTML components
+ */
+.options {
+  /**
+   * This is for the HTML <select> tag
+   */
+  background: transparent; }
