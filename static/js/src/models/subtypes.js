@@ -8,7 +8,7 @@ define(function (require) {
   var SortableCollection = Backbone.Collection.extend({
       initialize: function (props) {
         console.log('This is a sortable collection. ');
-        
+
         for (var key in props) {
           this[key] = props[key];
         }
@@ -22,7 +22,7 @@ define(function (require) {
             result;
 
         if (typeof value1 === typeof value2 && typeof value1 === 'string') {
-          value1 = value1.toLowerCase(); 
+          value1 = value1.toLowerCase();
           value2 = value2.toLowerCase();
         } else if (typeof value1 === typeof value2 && typeof value1 === undefined) {
           value1 = value2 = -Infinity;
@@ -56,12 +56,12 @@ define(function (require) {
 
   var SortableTableView = Backbone.View.extend({
     events: {
-      'click .sortable-head': 'sortByAttribute'
+      'click .SortableHead': 'sortByAttribute'
     },
 
     initialize: function () {
       console.log('Initialzed a sortable table view.');
-    }, 
+    },
 
     sortByAttribute: function(e) {
       var target = e.currentTarget,
@@ -84,23 +84,23 @@ define(function (require) {
       return this.reloadTableData();
     },
 
-    reloadTableData: function (options) { 
+    reloadTableData: function (options) {
       var _this = this;
 
       this.collection.fetch({
         success: function (collection) {
-  
+
         /**
          * This allows passing in a pre-determined order for data
          */
         if (options && 'sortBy' in options) {
-          var attrName = options.sortBy, 
+          var attrName = options.sortBy,
               order = options.order;
 
           return _this.reloadView(collection.sortByAttribute(attrName, order));
         }
 
-          return _this.reloadView(collection); 
+          return _this.reloadView(collection);
         },
         error: function () {
 
