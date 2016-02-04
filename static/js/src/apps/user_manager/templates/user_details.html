@@ -1,6 +1,6 @@
 <!-- Tempalte for file editor for admin.  -->
 <h3>User Details</h3>
-<form name="user-details-form" class="form">
+<form name="user-details-form" class="form details-form">
 
   <div class="message-container">
     <p class="text-{{message_type}}">{{message_content}}</p>
@@ -21,7 +21,7 @@
     <p class="editable col-xs-8 col-md-4 col-sm-8">{{type}}</p>
     <!-- TODO: decide whether to show a drop-down here or have a master "edit button" -->
     <div class="col-xs-8 col-md-4 col-sm-8">
-      <select id="user-types" class="editing">
+      <select id="user-types" class="editing options">
         <option {{userSelected}} value="user">User</option>
         <option {{demouserSelected}} value="demo_user">Demo User</option>
         <option {{customerSelected}} value="customer">Customer</option>

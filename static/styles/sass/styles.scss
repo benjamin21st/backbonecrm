@@ -1,3 +1,13 @@
+/**********************
+ *   variables        *
+ **********************/
+$border_grey: #CECECE;
+
+/**
+ * TODO: use mixins for repetitive border and
+ * padding definitions.
+ */
+
 .header {
   display: flex;
   align-items: center;
@@ -40,7 +50,7 @@
 
 .sortable-table.table {
 
-  border: 1px solid #CECECE;
+  border: 1px solid $border_grey;
 
   .table-row {
     &:hover {
@@ -122,6 +132,23 @@
 /**
  * Bootstrap override
  */
-.form-group {
-  overflow: hidden;
+
+.details-form {
+  border: 1px solid $border_grey;
+  padding: 5px;
+
+  .form-group {
+    overflow: hidden;
+    min-height: 40px;
+  }
+}
+
+/**
+ * For HTML components
+ */
+.options {
+  /**
+   * This is for the HTML <select> tag
+   */
+  background: transparent;
 }
