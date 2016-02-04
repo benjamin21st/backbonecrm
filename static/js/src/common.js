@@ -8,8 +8,13 @@
 define(function (require) {
    //  Create a parent object to store child objects
   var
+      $ = require('jquery'),
       Backbone = require('backbone'),
-      bbCRM = {};
+      bbCRM = {
+        loadApp: function (appEl) {
+          $('#app-container').html(appEl);
+        }
+      };
 
     /**
      * Custom config backbone here rather than globally.
