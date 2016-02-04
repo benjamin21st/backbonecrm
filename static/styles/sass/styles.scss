@@ -1,5 +1,11 @@
 .sortable-table.table {
 
+  .table-row {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   th:not(:last-child) {
     .header-text {
       padding-left: 20px;
@@ -50,7 +56,7 @@
     }
 
     .editing {
-      display: block;
+      display: inline-block;
     }
   }
 }
