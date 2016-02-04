@@ -12,6 +12,9 @@ define( function (require) {
     $ = require('jquery'),
     Backbone = require('backbone'),
     Handlebars = require('handlebars'),
+
+    localConfig = require('local_config'),
+
     userListItemTpl = require('text!apps/user_manager/templates/user_list_item.html'),
     userListTpl = require('text!apps/user_manager/templates/users.html'),
     userDetailsTpl = require('text!apps/user_manager/templates/user_details.html'),
@@ -157,7 +160,7 @@ define( function (require) {
 
       var cb = function () {
         _this.model.save(null, {
-          url: '/admin/users/' + _this.model.attributes.uid,
+          url: localConfig.urlRoot + '/users/' + _this.model.attributes.uid,
           type: 'DELETE',
           success: function () {
             console.log('user deleted');
@@ -195,7 +198,7 @@ define( function (require) {
       this.model.set(newData);
 
       this.model.save(null, {
-        url: '/admin/users/' + this.model.attributes.uid,
+        url: localConfig.urlRoot + '/users/' + this.model.attributes.uid,
         success: function () {
           _this.cancelEditing();
           _this.render();
