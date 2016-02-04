@@ -1,4 +1,46 @@
+.header {
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  width: 100%;
+  height: 70px;
+  background: #004377;
+  color: #FFF;
+
+  .logged-out {
+    display: inline-block;
+  }
+
+  .logged-in {
+    display: none;
+  }
+
+  &.logged-in {
+    .logged-in {
+      display: inline-block;
+    }
+
+    .logged-out {
+      display: none;
+    }
+  }
+
+  .header-text {
+    margin-top: 10px;
+    display: inline-block;
+  }
+
+  .menu-items {
+    position: absolute;
+    right: 30px;
+    top: 15px;
+    display: inline-block;
+  }
+}
+
 .sortable-table.table {
+
+  border: 1px solid #CECECE;
 
   .table-row {
     &:hover {
@@ -6,7 +48,7 @@
     }
   }
 
-  th:not(:last-child) {
+  .table-head {
     .header-text {
       padding-left: 20px;
     }
