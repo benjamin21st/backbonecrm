@@ -1,15 +1,17 @@
+/* globals define */
 /**
- * Data collection model for users, admin only
+ *
  */
-define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'apps/user_manager/scripts/models/user'
-], function ($, _, Backbone, UserModel) {
-  "use strict";
+'use strict';
 
-  var UserCollection = Backbone.Collection.extend({
+define(function (require) {
+
+  var
+    Backbone = require('backbone'),
+    Subtypes = require('models/subtypes'),
+    UserModel = require('apps/user_manager/scripts/models/user');
+
+  var UserCollection = Subtypes.SortableCollection.extend({
 
     url: '/admin/users/all',
 

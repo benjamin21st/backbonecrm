@@ -1,3 +1,9 @@
-// This can be used as a template for config on different environments
-var devEnviron = 'development',
-    urlRoot = 'http://localhost:5000';
+/* globals define */
+'use strict';
+
+define(function() {
+  return {
+    devEnviron: 'development',
+    urlRoot: 'http://localhost:5001'
+  };
+});

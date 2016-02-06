@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Backbone Bootstrap Single Page CRM</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='bower_components/font-awesome/css/font-awesome.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles/css/styles.css')}}">
+  <title>Backbone Bootstrap Single Page CRM</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='bower_components/font-awesome/css/font-awesome.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='styles/css/styles.css')}}">
 </head>
 <body>
-    <div id="app-container"></div>
+  <header class="header">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+      <h2 class="header-text">Backbone Bootstrap CRM</h2>
+      <div class="menu-items">
+        <button class="btn btn-default btn-xs logged-out">Log In</button>
+        <button class="btn btn-default btn-xs logged-in">Log Out</button>
+      </div>
+    </div>
+  </header>
 
-    <script data-main="{{url_for('static', filename='js/build/app.js')}}" src="{{url_for('static', filename='js/vendor/require.js')}}"></script>
+  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+    <div id="app-container"></div>
+  </div>
+
+  <script data-main="{{url_for('static', filename='js/build/app.js')}}" src="{{url_for('static', filename='js/vendor/require.js')}}"></script>
 </body>
 </html>

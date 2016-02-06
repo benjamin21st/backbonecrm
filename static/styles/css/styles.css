@@ -1,26 +1,62 @@
-.sortable-table.table th:not(:last-child) .header-text {
-  padding-left: 20px; }
-.sortable-table.table th:not(:last-child):hover {
-  cursor: pointer; }
-.sortable-table.table th:not(:last-child) .fa {
-  float: left;
-  color: grey;
-  display: none; }
-.sortable-table.table th.sorting .fa {
-  color: black; }
-.sortable-table.table th.sort-asc .fa.fa-sort-alpha-asc,
-.sortable-table.table th.sort-asc .fa.fa-sort-numeric-asc {
-  display: inline-block; }
-.sortable-table.table th.sort-desc .fa.fa-sort-alpha-desc,
-.sortable-table.table th.sort-desc .fa.fa-sort-numeric-desc {
-  display: inline-block; }
+/**********************
+ *   variables        *
+ **********************/
+/**
+ * TODO: use mixins for repetitive border and
+ * padding definitions.
+ */
+.header {
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  width: 100%;
+  height: 70px;
+  background: #004377;
+  color: #FFF; }
+  .header .logged-out {
+    display: inline-block; }
+  .header .logged-in {
+    display: none; }
+  .header.logged-in .logged-in {
+    display: inline-block; }
+  .header.logged-in .logged-out {
+    display: none; }
+  .header .header-text {
+    margin-top: 10px;
+    display: inline-block; }
+  .header .menu-items {
+    position: absolute;
+    right: 30px;
+    top: 15px;
+    display: inline-block; }
+
+.sortable-table.table {
+  border: 1px solid #CECECE; }
+  .sortable-table.table .table-row:hover {
+    cursor: pointer; }
+  .sortable-table.table .table-head .header-text {
+    padding-left: 20px; }
+  .sortable-table.table .table-head:hover {
+    cursor: pointer; }
+  .sortable-table.table .table-head .fa {
+    float: left;
+    color: grey;
+    display: none; }
+  .sortable-table.table th.sorting .fa {
+    color: black; }
+  .sortable-table.table th.sort-asc .fa.fa-sort-alpha-asc,
+  .sortable-table.table th.sort-asc .fa.fa-sort-numeric-asc {
+    display: inline-block; }
+  .sortable-table.table th.sort-desc .fa.fa-sort-alpha-desc,
+  .sortable-table.table th.sort-desc .fa.fa-sort-numeric-desc {
+    display: inline-block; }
 
 .user-details-view .editing {
   display: none; }
 .user-details-view.editing-mode .editable {
   display: none; }
 .user-details-view.editing-mode .editing {
-  display: block; }
+  display: inline-block; }
 
 /**
  * TODO:
@@ -39,5 +75,18 @@
 /**
  * Bootstrap override
  */
-.form-group {
-  overflow: hidden; }
+.details-form {
+  border: 1px solid #CECECE;
+  padding: 5px; }
+  .details-form .form-group {
+    overflow: hidden;
+    min-height: 40px; }
+
+/**
+ * For HTML components
+ */
+.options {
+  /**
+   * This is for the HTML <select> tag
+   */
+  background: transparent; }

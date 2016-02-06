@@ -12,28 +12,26 @@ define( function (require) {
     $ = require('jquery'),
     Backbone = require('backbone'),
     Handlebars = require('handlebars'),
+
+    localConfig = require('local_config'),
+
     userListItemTpl = require('text!apps/user_manager/templates/user_list_item.html'),
     userListTpl = require('text!apps/user_manager/templates/users.html'),
     userDetailsTpl = require('text!apps/user_manager/templates/user_details.html'),
     Dialogs = require('views/partials/dialog'),
     bbCRM = require('common'),
+
+    Subtypes = require('models/subtypes'),
     UserCollection = require('apps/user_manager/scripts/models/users');
 
 
-  var UserManager = Backbone.View.extend({
+  var UserManager = Subtypes.SortableTableView.extend({
 
     className: 'user-manager',
 
-    events: {
-      'click .fullname':     function () {this.sortByAttributeName('fullname');},
-      'click .email':        function () {this.sortByAttributeName('email');},
-      'click .type':         function () {this.sortByAttributeName('type');},
-      'click .organization': function () {this.sortByAttributeName('organization');},
-      'click .created_at':   function () {this.sortByAttributeName('created_at');}
-    },
-
     initialize: function () {
       this.collection = new UserCollection();
+      this.childView = UserListItemView;
     },
 
     render: function () {
@@ -44,18 +42,10 @@ define( function (require) {
 
       this.collection.fetch({
         success: function (data) {
+          data.sortByAttribute('created_at', -1);
+
           var models = data.models,
               cachedDom = [];
-          models.sort(function (a, b) {
-            if (a.attributes['created_at'] > b.attributes['created_at']) {
-              return -1;
-            }
-            else if (a.attributes['created_at'] < b.attributes['created_at']) {
-              return 1;
-            } else {
-            return 0;
-            }
-          });
 
           for (var i = 0, length = models.length, model, itemView; i < length; i++) {
             model = models[i];
@@ -73,71 +63,20 @@ define( function (require) {
       });
 
       return this;
-    },
-
-    sortByAttribute: function (attrName, sortDirection) {
-      var _this = this,
-          attrName = attrName,
-          sortDirection = sortDirection,
-          userModels = this.collection.models,
-          len = userModels.length,
-          tempData = [];
-
-          userModels.sort(function (a, b) {
-            if (a.attributes[attrName] > b.attributes[attrName]) {
-              if (sortDirection === 'desc') {
-                return -1;
-              }
-              return 1;
-            }
-            else if (a.attributes[attrName] < b.attributes[attrName]) {
-              if (sortDirection === 'desc') {
-                return 1;
-              }
-              return -1;
-            } else {
-            return 0;
-            }
-          });
-
-          for (var k = 0, model, itemView; k < len; k++) {
-            model = userModels[k];
-            itemView = new UserListItemView({model: model});
-            tempData.push(itemView.el);
-          }
-          _this.$el.find('.table-data').html(tempData);
-          return _this;
-    },
-
-    sortByAttributeName: function (attrName) {
-      var attrName = attrName,
-          curHead = $('.' + attrName),
-          flagSorting = curHead.hasClass('sorting');
-
-      if (!flagSorting) {
-        curHead.addClass('sorting');
-        this.sortByAttribute(attrName, 'asc');
-      } else if (flagSorting && curHead.hasClass('sort-asc')) {
-        curHead.addClass('sort-desc').removeClass('sort-asc');
-        this.sortByAttribute(attrName, 'desc');
-      } else if (flagSorting && curHead.hasClass('sort-desc')) {
-        curHead.addClass('sort-asc').removeClass('sort-desc');
-        this.sortByAttribute(attrName, 'asc');
-      }
     }
   });
 
 
   var UserListItemView = Backbone.View.extend({
 
-    className: 'user-list-item',
+    className: 'user-list-item table-row',
 
     tagName: 'tr',
 
     template: Handlebars.compile(userListItemTpl),
 
     events: {
-      'click .view-details': 'viewUserDetails'
+      'click': 'viewUserDetails'
     },
 
     initialize: function () {
@@ -221,7 +160,7 @@ define( function (require) {
 
       var cb = function () {
         _this.model.save(null, {
-          url: '/admin/users/' + _this.model.attributes.uid,
+          url: localConfig.urlRoot + '/users/' + _this.model.attributes.uid,
           type: 'DELETE',
           success: function () {
             console.log('user deleted');
@@ -259,7 +198,7 @@ define( function (require) {
       this.model.set(newData);
 
       this.model.save(null, {
-        url: '/admin/users/' + this.model.attributes.uid,
+        url: localConfig.urlRoot + '/users/' + this.model.attributes.uid,
         success: function () {
           _this.cancelEditing();
           _this.render();

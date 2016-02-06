@@ -1,6 +1,6 @@
 <!-- Tempalte for file editor for admin.  -->
-<h1>User Details</h1>
-<form name="user-details-form" class="form">
+<h3>User Details</h3>
+<form name="user-details-form" class="form details-form">
 
   <div class="message-container">
     <p class="text-{{message_type}}">{{message_content}}</p>
@@ -21,7 +21,7 @@
     <p class="editable col-xs-8 col-md-4 col-sm-8">{{type}}</p>
     <!-- TODO: decide whether to show a drop-down here or have a master "edit button" -->
     <div class="col-xs-8 col-md-4 col-sm-8">
-      <select id="user-types" class="editing">
+      <select id="user-types" class="editing options">
         <option {{userSelected}} value="user">User</option>
         <option {{demouserSelected}} value="demo_user">Demo User</option>
         <option {{customerSelected}} value="customer">Customer</option>
@@ -41,12 +41,25 @@
   </div>
 
   <div class="form-group">
-    <div class="btn-group">
-      <div class="edit editable btn btn-default btn-sm">Edit</div>
-      <div class="close-view editable btn btn-default btn-sm">Close</div>
-      <div class="cancel editing btn btn-default btn-sm">Cancel</div>
-      <div class="save editing btn btn-primary btn-sm" type="submit">Save</div>
-      <div class="delete editing btn btn-danger btn-sm">Delete</div>
+    <div class="">
+      <div class="edit editable btn btn-default btn-sm">
+        <i class="fa fa-pencil"></i>
+        <span class="button-text">Edit</span>
+      </div>
+      <div class="close-view editable btn btn-default btn-sm">  <i class="fa fa-reply"></i>
+        <span class="button-text">Back</span>
+      </div>
+      <div class="cancel editing btn btn-default btn-sm">
+        <i class="fa fa-times"></i>
+        <span class="button-text">Cancel</span>
+      </div>
+      <div class="save editing btn btn-default btn-sm" type="submit">
+        <i class="fa fa-floppy-o"></i>
+        <span class="button-text">Save</span>
+      </div>
+      <div class="delete editing btn btn-default btn-sm">
+        <i class="fa fa-trash text-danger"></i>
+      </div>
     </div>
   </div>
 </form>
