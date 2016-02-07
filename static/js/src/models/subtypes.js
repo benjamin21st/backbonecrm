@@ -82,7 +82,8 @@ define(function (require) {
    */
   var SortableTableView = Backbone.View.extend({
     events: {
-      'click .SortableHead': 'sortByAttribute'
+      'click .SortableHead': 'sortByAttribute',
+      'click .LoadMoreData': 'loadMoreData'
     },
 
     initialize: function () {
@@ -113,6 +114,15 @@ define(function (require) {
     reloadTableData: function (options) {
       var _this = this;
 
+      /**
+       * [success description]
+       * TODO: try not to fetch new data and just render
+       *       the view.
+       *
+       * @param  {[type]} collection) {                                                                       if (options && 'sortBy' in options) {                         var attrName [description]
+       * @param  {[type]} error:      function      () {          return _this.reloadView(this.collection);                              }              } [description]
+       * @return {[type]}             [description]
+       */
       this.collection.fetch({
         success: function (collection) {
 
@@ -152,6 +162,93 @@ define(function (require) {
       this.$el.find('.table-data').html(cachedDom);
 
       return this;
+    },
+
+    /**
+     * [loadMoreData description]
+     * This function will load more data from server when
+     * a certain event is triggered. I.E. scroll overTop or
+     * click a "load more" button.
+     *
+     * Using the backbone collection.fetch function,
+     * this could be implemented as:
+     *  - pass 'offset' and 'limit' to the url as params
+     *    - collection.fetch({
+     *      url: '/data/category/all?limit=10&offset=0'
+     *    })
+     *    - on server side, return data based on the 'limit'
+     *      and 'offset' settings
+     *  - the front end sorting should work only on the queried
+     *    data, when new data is queried, append to the bottom of
+     *    the table, user needs to click their sorting criteria
+     *    again to re-sort. Potentially, we could toggle off the
+     *    sorting status that is currently in place to signal user
+     *    that sorting is currently interrupted.
+     *
+     *
+     * @param  {[type]} options [description]
+     * @return {[type]}         [description]
+     */
+    loadMoreData: function (options) {
+      var limit, offset, baseURL,
+          url = this.collection.url,
+          _this = this;
+
+      try {
+        limit = parseInt(url.match(/limit=\d+/)[0].match(/\d+/)[0]);
+      } catch (e) {
+        if (!limit) {
+          limit = 10;
+        }
+      }
+
+      try {
+        offset = parseInt(url.match(/offset=\d+/)[0].match(/\d+/)[0]);
+        offset += limit;
+      } catch (e) {
+        if (!offset) {
+          offset = 10;
+        }
+      }
+
+      try {
+        baseURL = url.match(/.+\?/)[0] || url;
+      } catch (e) {
+        baseURL = url + '?';
+      }
+
+      this.collection.url = baseURL + 'offset=' + offset + '&limit=' + limit;
+
+      this.collection.fetch({
+        // url: baseURL + 'offset=' + offset + '&limit=' + limit,
+        success: function (data) {
+          console.log(data);
+
+          if (!data) {
+            return console.log('There are no more data to be retrieved.');
+          }
+
+          var models = data.models,
+              len = models.length,
+              model,
+              itemView,
+              cachedDom = [];
+
+          for (var  i = 0; i < len; i++) {
+            model = models[i].parseDates();
+            itemView = new _this.childView({model: model});
+
+            cachedDom.push(itemView.el);
+          }
+
+          _this.$el.find('.table-data').append(cachedDom);
+
+        },
+        error: function (req, status, err) {
+          console.log(err.message);
+        }
+      });
+
     }
 
   });
