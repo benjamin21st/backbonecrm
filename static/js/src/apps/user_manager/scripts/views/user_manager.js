@@ -30,6 +30,14 @@ define( function (require) {
     className: 'user-manager',
 
     initialize: function () {
+      /**
+       * [baseCollection description]
+       * As a temporary solution, create a baseCollection and reuse
+       * it later when we need.
+       *
+       * @type {[type]}
+       */
+      this.baseCollection = UserCollection;
       this.collection = new UserCollection();
       this.childView = UserListItemView;
     },

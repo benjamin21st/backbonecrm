@@ -111,9 +111,7 @@ define(function (require) {
       return this.reloadTableData();
     },
 
-    reloadTableData: function (options) {
-      var _this = this;
-
+    reloadTableData: function () {
       /**
        * [success description]
        * TODO: try not to fetch new data and just render
@@ -123,26 +121,12 @@ define(function (require) {
        * @param  {[type]} error:      function      () {          return _this.reloadView(this.collection);                              }              } [description]
        * @return {[type]}             [description]
        */
-      this.collection.fetch({
-        success: function (collection) {
 
-        /**
-         * This allows passing in a pre-determined order for data
-         */
-        if (options && 'sortBy' in options) {
-          var attrName = options.sortBy,
-              order = options.order;
-
-          return _this.reloadView(collection.sortByAttribute(attrName, order));
-        }
-
-          return _this.reloadView(collection);
-        },
-        error: function () {
-
-          return _this.reloadView(this.collection);
-        }
-      });
+      /**
+       * TODO:
+       *   - make sure sortBy will sort the existing models
+       */
+      this.reloadView(this.collection);
     },
 
     reloadView: function (collection) {
@@ -217,9 +201,30 @@ define(function (require) {
         baseURL = url + '?';
       }
 
-      this.collection.url = baseURL + 'offset=' + offset + '&limit=' + limit;
+      /**
+       * [url description]
+       * this changes the this.collection, so that when we do
+       * "fetch" later on there are no models in the collection
+       *
+       * Solutions:
+       *   - maybe in this rload more function, we create
+       *   a new collection to perform "fetch" and "append", and then
+       *   add al data in this collection to the original
+       *   collection.
+       *
+       *   - Or, not use backbone's "fetch", use standard ajax
+       *
+       *
+       * @type {[type]}
+       */
 
-      this.collection.fetch({
+       // TODO: try initialize new baseCollection and set the URL?
+       // and remember not to fetch
+      this.collection.url = baseURL + 'offset=' + offset + '&limit=' + limit;
+      this.newCollection = new this.baseCollection();
+      this.newCollection.url = this.collection.url;
+
+      this.newCollection.fetch({
         // url: baseURL + 'offset=' + offset + '&limit=' + limit,
         success: function (data) {
           console.log(data);
@@ -236,8 +241,9 @@ define(function (require) {
 
           for (var  i = 0; i < len; i++) {
             model = models[i].parseDates();
-            itemView = new _this.childView({model: model});
+            _this.collection.add(model);
 
+            itemView = new _this.childView({model: model});
             cachedDom.push(itemView.el);
           }
 
