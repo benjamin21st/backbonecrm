@@ -23,7 +23,6 @@ define(function (require) {
    */
   var SortableCollection = Backbone.Collection.extend({
       initialize: function (props) {
-        console.log('This is a sortable collection. ');
 
         for (var key in props) {
           this[key] = props[key];
@@ -87,7 +86,7 @@ define(function (require) {
     },
 
     initialize: function () {
-      console.log('Initialzed a sortable table view.');
+      // console.log('Initialzed a sortable table view.');
     },
 
     sortByAttribute: function(e) {
@@ -227,7 +226,6 @@ define(function (require) {
       this.newCollection.fetch({
         // url: baseURL + 'offset=' + offset + '&limit=' + limit,
         success: function (data) {
-          console.log(data);
 
           if (!data) {
             return console.log('There are no more data to be retrieved.');
