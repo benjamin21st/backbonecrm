@@ -40,7 +40,24 @@ def show_homepage():
 
 
 def get_all_users_for_admin():
-    res = {"message": "Success", "data": users, "success": True}
+    query_args = request.args
+    limit = query_args.get('limit')
+    offset = query_args.get('offset')
+
+    if not limit and not offset:
+        limit = 10
+        offset = 0
+    else:
+        limit = int(limit)
+        offset = int(offset)
+
+    # TODO: Make sure the last bit of data is returnable
+    start = offset
+    end = offset + limit
+    if end > len(users):
+        end = len(users)
+
+    res = {"message": "Success", "data": users[start: end], "success": True}
     return json.dumps(res), 200, {"ContentType": "application/json"}
 
 urls = [

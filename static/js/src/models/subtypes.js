@@ -23,7 +23,6 @@ define(function (require) {
    */
   var SortableCollection = Backbone.Collection.extend({
       initialize: function (props) {
-        console.log('This is a sortable collection. ');
 
         for (var key in props) {
           this[key] = props[key];
@@ -82,11 +81,12 @@ define(function (require) {
    */
   var SortableTableView = Backbone.View.extend({
     events: {
-      'click .SortableHead': 'sortByAttribute'
+      'click .SortableHead': 'sortByAttribute',
+      'click .LoadMoreData': 'loadMoreData'
     },
 
     initialize: function () {
-      console.log('Initialzed a sortable table view.');
+      // console.log('Initialzed a sortable table view.');
     },
 
     sortByAttribute: function(e) {
@@ -110,29 +110,22 @@ define(function (require) {
       return this.reloadTableData();
     },
 
-    reloadTableData: function (options) {
-      var _this = this;
+    reloadTableData: function () {
+      /**
+       * [success description]
+       * TODO: try not to fetch new data and just render
+       *       the view.
+       *
+       * @param  {[type]} collection) {                                                                       if (options && 'sortBy' in options) {                         var attrName [description]
+       * @param  {[type]} error:      function      () {          return _this.reloadView(this.collection);                              }              } [description]
+       * @return {[type]}             [description]
+       */
 
-      this.collection.fetch({
-        success: function (collection) {
-
-        /**
-         * This allows passing in a pre-determined order for data
-         */
-        if (options && 'sortBy' in options) {
-          var attrName = options.sortBy,
-              order = options.order;
-
-          return _this.reloadView(collection.sortByAttribute(attrName, order));
-        }
-
-          return _this.reloadView(collection);
-        },
-        error: function () {
-
-          return _this.reloadView(this.collection);
-        }
-      });
+      /**
+       * TODO:
+       *   - make sure sortBy will sort the existing models
+       */
+      this.reloadView(this.collection);
     },
 
     reloadView: function (collection) {
@@ -152,6 +145,114 @@ define(function (require) {
       this.$el.find('.table-data').html(cachedDom);
 
       return this;
+    },
+
+    /**
+     * [loadMoreData description]
+     * This function will load more data from server when
+     * a certain event is triggered. I.E. scroll overTop or
+     * click a "load more" button.
+     *
+     * Using the backbone collection.fetch function,
+     * this could be implemented as:
+     *  - pass 'offset' and 'limit' to the url as params
+     *    - collection.fetch({
+     *      url: '/data/category/all?limit=10&offset=0'
+     *    })
+     *    - on server side, return data based on the 'limit'
+     *      and 'offset' settings
+     *  - the front end sorting should work only on the queried
+     *    data, when new data is queried, append to the bottom of
+     *    the table, user needs to click their sorting criteria
+     *    again to re-sort. Potentially, we could toggle off the
+     *    sorting status that is currently in place to signal user
+     *    that sorting is currently interrupted.
+     *
+     *
+     * @param  {[type]} options [description]
+     * @return {[type]}         [description]
+     */
+    loadMoreData: function (options) {
+      var limit, offset, baseURL,
+          url = this.collection.url,
+          _this = this;
+
+      try {
+        limit = parseInt(url.match(/limit=\d+/)[0].match(/\d+/)[0]);
+      } catch (e) {
+        if (!limit) {
+          limit = 10;
+        }
+      }
+
+      try {
+        offset = parseInt(url.match(/offset=\d+/)[0].match(/\d+/)[0]);
+        offset += limit;
+      } catch (e) {
+        if (!offset) {
+          offset = 10;
+        }
+      }
+
+      try {
+        baseURL = url.match(/.+\?/)[0] || url;
+      } catch (e) {
+        baseURL = url + '?';
+      }
+
+      /**
+       * [url description]
+       * this changes the this.collection, so that when we do
+       * "fetch" later on there are no models in the collection
+       *
+       * Solutions:
+       *   - maybe in this rload more function, we create
+       *   a new collection to perform "fetch" and "append", and then
+       *   add al data in this collection to the original
+       *   collection.
+       *
+       *   - Or, not use backbone's "fetch", use standard ajax
+       *
+       *
+       * @type {[type]}
+       */
+
+       // TODO: try initialize new baseCollection and set the URL?
+       // and remember not to fetch
+      this.collection.url = baseURL + 'offset=' + offset + '&limit=' + limit;
+      this.newCollection = new this.baseCollection();
+      this.newCollection.url = this.collection.url;
+
+      this.newCollection.fetch({
+        // url: baseURL + 'offset=' + offset + '&limit=' + limit,
+        success: function (data) {
+
+          if (!data) {
+            return console.log('There are no more data to be retrieved.');
+          }
+
+          var models = data.models,
+              len = models.length,
+              model,
+              itemView,
+              cachedDom = [];
+
+          for (var  i = 0; i < len; i++) {
+            model = models[i].parseDates();
+            _this.collection.add(model);
+
+            itemView = new _this.childView({model: model});
+            cachedDom.push(itemView.el);
+          }
+
+          _this.$el.find('.table-data').append(cachedDom);
+
+        },
+        error: function (req, status, err) {
+          console.log(err.message);
+        }
+      });
+
     }
 
   });
