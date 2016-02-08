@@ -44,30 +44,12 @@ def get_all_users_for_admin():
     limit = query_args.get('limit')
     offset = query_args.get('offset')
 
-    print "Currently count of all users: %d", len(users)
-
     if not limit and not offset:
         limit = 10
         offset = 0
     else:
         limit = int(limit)
         offset = int(offset)
-
-    # test
-    # print offset
-    # arr = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]
-    # print arr
-    # print arr[offset]
-    # arr[offset]
-    # print users[1]
-
-
-    # print "limit is:"
-    # print limit
-    # print "offset is"
-    # print offset
-    # print "__________"
-
 
     # TODO: Make sure the last bit of data is returnable
     start = offset
