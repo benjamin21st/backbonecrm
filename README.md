@@ -21,5 +21,5 @@ To develop BBCRM, in addition to the steps mentioned earlier in order to get it 
  1. node and npm
  2. bower
 
- # Issues
- It still requires Bower components to be able to show styles and stuff. Make it more self-containing by using CDN or minified scripts.
+    # Issues
+    I manually made it self-containing by copying over minified third party stylesheets, for future reference we need a more sustainable solution.
