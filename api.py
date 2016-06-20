@@ -60,33 +60,25 @@ def get_all_users_for_admin():
     res = {"message": "Success", "data": users[start: end], "success": True}
     return json.dumps(res), 200, {"ContentType": "application/json"}
 
-def get_users_from_east():
+def get_users(direction):
     result = []
     for user in users:
-        if user["organization"] == "East":
+        if user["organization"] == direction:
             result.append(user)
     return json.dumps(result), 200, {"ContentType": "application/json"}
 
+def get_users_from_east():
+    return get_users('East')
+
 def get_users_from_west():
-    result = []
-    for user in users:
-        if user["organization"] == "West":
-            result.append(user)
-    return json.dumps(result), 200, {"ContentType": "application/json"}
+    return get_users('West')
+
     
 def get_users_from_south():
-    result = []
-    for user in users:
-        if user["organization"] == "South":
-            result.append(user)
-    return json.dumps(result), 200, {"ContentType": "application/json"}
+    return get_users('South')
     
 def get_users_from_north():
-    result = []
-    for user in users:
-        if user["organization"] == "North":
-            result.append(user)
-    return json.dumps(result), 200, {"ContentType": "application/json"}
+    return get_users('North')
 
 urls = [
     ("/",                           ["GET"],            show_homepage),
@@ -95,6 +87,7 @@ urls = [
     ("/admin/users/west",           ["GET"],            get_users_from_west), 
     ("/admin/users/north",          ["GET"],            get_users_from_north), 
     ("/admin/users/south",          ["GET"],            get_users_from_south), 
+  
   ]
 
 
